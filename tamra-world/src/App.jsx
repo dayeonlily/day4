@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { supa } from "./lib/supabase.js";
 import { usePixabay } from "./lib/pixabay.js";
 import AuthModal from "./components/AuthModal.jsx";
@@ -6,6 +6,7 @@ import Guestbook from "./components/Guestbook.jsx";
 import Shop from "./components/Shop.jsx";
 import Cart from "./components/Cart.jsx";
 import Visitors from "./components/Visitors.jsx";
+const Jeju3D = lazy(() => import("./components/Jeju3D.jsx"));
 import { useCart } from "./lib/cart.js";
 
 const CHARACTERS = [
@@ -57,6 +58,7 @@ export default function App() {
         <div className="wrap">
           <a href="#top" className="logo">탐라<span>월드</span></a>
           <nav>
+            <a className="link" href="#map3d">3D 지도</a>
             <a className="link" href="#characters">캐릭터</a>
             <a className="link" href="#story">세계관</a>
             <a className="link" href="#gallery">갤러리</a>
@@ -88,6 +90,10 @@ export default function App() {
             <a className="btn" href="#characters">캐릭터 만나보기</a>
           </div>
         </div>
+
+        <Suspense fallback={<section className="map3d"><div className="wrap"><p className="sub">3D 지도를 불러오는 중…</p></div></section>}>
+          <Jeju3D />
+        </Suspense>
 
         <section id="characters">
           <div className="wrap">
