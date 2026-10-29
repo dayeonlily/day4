@@ -5,6 +5,7 @@ import AuthModal from "./components/AuthModal.jsx";
 import Guestbook from "./components/Guestbook.jsx";
 import Shop from "./components/Shop.jsx";
 import Cart from "./components/Cart.jsx";
+import Visitors from "./components/Visitors.jsx";
 import { useCart } from "./lib/cart.js";
 
 const CHARACTERS = [
@@ -60,6 +61,7 @@ export default function App() {
             <a className="link" href="#story">세계관</a>
             <a className="link" href="#gallery">갤러리</a>
             <a className="link" href="#shop">굿즈</a>
+            <a className="link" href="#visitors">관광지</a>
             <a className="link" href="#guestbook">방명록</a>
             <button className="cart-btn" type="button" onClick={() => setCartOpen(true)} aria-label={`장바구니 (${cart.count}개)`}>
               🛒{cart.count > 0 && <span className="badge">{cart.count}</span>}
@@ -120,6 +122,8 @@ export default function App() {
         </section>
 
         <Shop onAdd={cart.add} />
+
+        <Visitors />
 
         <Guestbook user={user} onLogin={() => setModal("login")} />
 
