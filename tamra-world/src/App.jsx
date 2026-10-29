@@ -3,6 +3,9 @@ import { supa } from "./lib/supabase.js";
 import { usePixabay } from "./lib/pixabay.js";
 import AuthModal from "./components/AuthModal.jsx";
 import Guestbook from "./components/Guestbook.jsx";
+import Shop from "./components/Shop.jsx";
+import Cart from "./components/Cart.jsx";
+import { useCart } from "./lib/cart.js";
 
 const CHARACTERS = [
   { name: "하르", tag: "수호자", emoji: "🗿", q: "dol hareubang jeju", desc: "마을 어귀를 지키는 돌하르방. 말수는 적지만 누구보다 든든한 맏형." },
@@ -32,6 +35,7 @@ function GalleryItem({ q }) {
 export default function App() {
   const [session, setSession] = useState(null);
   const [modal, setModal] = useState(null); // null | "login" | "signup"
+  const [cartOpen, setCartOpen] = useState(false);
 
   useEffect(() => {
     if (!supa) return;
@@ -43,6 +47,7 @@ export default function App() {
   const heroImg = usePixabay("jeju island landscape");
   const storyImg = usePixabay("jeju stone wall");
   const user = session?.user ?? null;
+  const cart = useCart(user);
   const name = user?.user_metadata?.nickname || user?.email;
 
   return (
@@ -54,7 +59,11 @@ export default function App() {
             <a className="link" href="#characters">캐릭터</a>
             <a className="link" href="#story">세계관</a>
             <a className="link" href="#gallery">갤러리</a>
+            <a className="link" href="#shop">굿즈</a>
             <a className="link" href="#guestbook">방명록</a>
+            <button className="cart-btn" type="button" onClick={() => setCartOpen(true)} aria-label={`장바구니 (${cart.count}개)`}>
+              🛒{cart.count > 0 && <span className="badge">{cart.count}</span>}
+            </button>
             <div id="userbox">
               {user ? (
                 <>
@@ -110,6 +119,8 @@ export default function App() {
           </div>
         </section>
 
+        <Shop onAdd={cart.add} />
+
         <Guestbook user={user} onLogin={() => setModal("login")} />
 
         <section className="members">
@@ -131,6 +142,7 @@ export default function App() {
         </div>
       </footer>
 
+      {cartOpen && <Cart cart={cart} user={user} onLogin={() => { setCartOpen(false); setModal("login"); }} onClose={() => setCartOpen(false)} />}
       {modal && <AuthModal initialMode={modal} onClose={() => setModal(null)} />}
     </>
   );

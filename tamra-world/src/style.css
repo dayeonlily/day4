@@ -95,3 +95,31 @@ input:focus { outline: none; border-color: var(--sea); }
 .gb-list .del { border: 0; background: none; color: #c0392b; cursor: pointer; font: inherit; font-size: 13px; }
 .gb-list p { white-space: pre-wrap; word-break: break-word; }
 .gb-empty { text-align: center; color: var(--muted); }
+
+.cart-btn { position: relative; border: 0; background: none; font-size: 22px; cursor: pointer; padding: 4px 6px; }
+.cart-btn .badge { position: absolute; top: -4px; right: -6px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: var(--citrus); color: #3a2600; font-size: 11px; font-weight: 700; display: grid; place-items: center; }
+
+.shop { background: #fff; border-block: 1px solid var(--line); }
+.product .body { padding-top: 30px; }
+.product .price { color: var(--sea-d); font-weight: 700; font-size: 16px; margin-bottom: 12px; }
+.product .btn { width: 100%; }
+
+.drawer-bg { position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 60; display: flex; justify-content: flex-end; }
+.drawer { width: min(420px, 100%); height: 100%; background: var(--cream); padding: 22px; overflow-y: auto; display: flex; flex-direction: column; }
+.drawer-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.drawer-head h3 { font-size: 22px; color: var(--sea-d); }
+.close-x { border: 0; background: none; font-size: 26px; cursor: pointer; color: var(--muted); }
+.cart-note { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+.cart-empty { text-align: center; color: var(--muted); margin-top: 60px; }
+.cart-list { list-style: none; padding: 0; display: grid; gap: 10px; }
+.cart-list li { display: flex; gap: 12px; align-items: center; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 12px; }
+.cart-emoji { font-size: 28px; }
+.cart-info { flex: 1; display: grid; gap: 2px; font-size: 14px; }
+.cart-info > span { color: var(--muted); }
+.qty { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+.qty button { width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--line); background: #fff; cursor: pointer; font-size: 16px; line-height: 1; }
+.qty button:hover { border-color: var(--sea); color: var(--sea); }
+.cart-sub { display: grid; gap: 6px; justify-items: end; font-size: 14px; }
+.cart-sub .del { border: 0; background: none; color: #c0392b; cursor: pointer; font: inherit; font-size: 12px; }
+.cart-total { display: flex; justify-content: space-between; margin-top: 18px; padding-top: 14px; border-top: 1px dashed var(--line); font-size: 18px; }
+.checkout { width: 100%; margin-top: 14px; padding: 13px; }

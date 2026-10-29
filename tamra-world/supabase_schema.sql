@@ -7,8 +7,10 @@ create table if not exists public.profiles (
 
 alter table public.profiles enable row level security;
 
+drop policy if exists "본인 프로필 조회" on public.profiles;
 create policy "본인 프로필 조회" on public.profiles
   for select using (auth.uid() = id);
+drop policy if exists "본인 프로필 수정" on public.profiles;
 create policy "본인 프로필 수정" on public.profiles
   for update using (auth.uid() = id);
 
@@ -41,10 +43,13 @@ create table if not exists public.guestbook (
 
 alter table public.guestbook enable row level security;
 
+drop policy if exists "방명록 누구나 조회" on public.guestbook;
 create policy "방명록 누구나 조회" on public.guestbook
   for select using (true);
+drop policy if exists "방명록 본인만 작성" on public.guestbook;
 create policy "방명록 본인만 작성" on public.guestbook
   for insert to authenticated with check (auth.uid() = user_id);
+drop policy if exists "방명록 본인만 삭제" on public.guestbook;
 create policy "방명록 본인만 삭제" on public.guestbook
   for delete to authenticated using (auth.uid() = user_id);
 
@@ -68,3 +73,28 @@ drop trigger if exists guestbook_nickname on public.guestbook;
 create trigger guestbook_nickname
   before insert on public.guestbook
   for each row execute function public.guestbook_set_nickname();
+
+
+-- ---------- 장바구니 (로그인한 본인 것만 조회/수정) ----------
+create table if not exists public.cart_items (
+  user_id uuid not null default auth.uid() references auth.users(id) on delete cascade,
+  product_id text not null,
+  quantity integer not null check (quantity between 1 and 99),
+  updated_at timestamptz not null default now(),
+  primary key (user_id, product_id)
+);
+
+alter table public.cart_items enable row level security;
+
+drop policy if exists "장바구니 본인 조회" on public.cart_items;
+create policy "장바구니 본인 조회" on public.cart_items
+  for select to authenticated using (auth.uid() = user_id);
+drop policy if exists "장바구니 본인 추가" on public.cart_items;
+create policy "장바구니 본인 추가" on public.cart_items
+  for insert to authenticated with check (auth.uid() = user_id);
+drop policy if exists "장바구니 본인 수정" on public.cart_items;
+create policy "장바구니 본인 수정" on public.cart_items
+  for update to authenticated using (auth.uid() = user_id) with check (auth.uid() = user_id);
+drop policy if exists "장바구니 본인 삭제" on public.cart_items;
+create policy "장바구니 본인 삭제" on public.cart_items
+  for delete to authenticated using (auth.uid() = user_id);

@@ -27,3 +27,9 @@ Vite + React + Supabase Auth + Pixabay. Vercel 배포용.
 ## 방명록
 - 조회는 누구나, 작성·삭제는 로그인한 본인만 (RLS 로 DB 에서 강제)
 - 닉네임은 DB 트리거가 가입 시 저장된 값으로 채움
+
+## 장바구니
+- 굿즈 6종(코드의 `src/lib/cart.js` `PRODUCTS`)을 담고 수량 조절/삭제/합계 확인
+- 로그인 상태: Supabase `cart_items` 테이블에 저장 (RLS 로 본인 것만 접근)
+- 비로그인 상태: 브라우저 localStorage 에 저장, 로그인하면 DB 로 합쳐짐
+- "주문하기"는 결제 연동 전 데모(장바구니만 비움)
